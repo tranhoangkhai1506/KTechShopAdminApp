@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Admin Panel',
         theme: themData,
-        home: const HomePage(),
+        home: HomePage(),
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -1,7 +1,11 @@
+// ignore_for_file: await_only_futures
+
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
+import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
 import 'package:ktechshopadmin/screens/home_page/widget/single_dash_item.dart';
+import 'package:ktechshopadmin/screens/user_view/user_view.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
     });
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
-    appProvider.callBackFunction();
+    await appProvider.callBackFunction();
     setState(() {
       isLoading = false;
     });
@@ -79,35 +83,46 @@ class _HomePageState extends State<HomePage> {
                           crossAxisCount: 2,
                           children: [
                             SingleDashItem(
+                              onPressed: () {
+                                Routes.instance
+                                    .push(widget: UserView(), context: context);
+                              },
                               subtitle: 'Users',
                               title: appProvider.getUserList.length.toString(),
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Categories',
                               title: appProvider.getCategoriesList.length
                                   .toString(),
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Products',
                               title: '120',
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Earnings',
                               title: '\$2250',
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Pending Order',
                               title: '20',
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Completed Order',
                               title: '199',
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Cancel Order',
                               title: '250',
                             ),
                             SingleDashItem(
+                              onPressed: () {},
                               subtitle: 'Pending',
                               title: '250',
                             ),

@@ -29,6 +29,15 @@ class FirebaseFirestoreHelper {
     }
   }
 
+  Future<String> deleteSingleUser(String id) async {
+    try {
+      await _firebaseFirestore.collection("users").doc(id).delete();
+      return "Successfully Deleted";
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   // Future<List<ProductModel>> getBestProducts() async {
   //   try {
   //     QuerySnapshot<Map<String, dynamic>> querySnapshot =

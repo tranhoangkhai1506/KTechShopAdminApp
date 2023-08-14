@@ -4,16 +4,20 @@ import 'package:ktechshopadmin/constants/dismension_constants.dart';
 
 class SingleDashItem extends StatelessWidget {
   final String title, subtitle;
+  final void Function()? onPressed;
   const SingleDashItem(
-      {super.key, required this.title, required this.subtitle});
+      {super.key,
+      required this.title,
+      required this.subtitle,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      onPressed: () {},
+      onPressed: onPressed,
       child: Card(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).primaryColor.withOpacity(0.5),
         elevation: 8.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kDefaultPadding),
