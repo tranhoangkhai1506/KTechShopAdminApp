@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
+import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/models/user_model/user_model.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
+import 'package:ktechshopadmin/screens/user_view/edit_user/edit_user.dart';
 import 'package:provider/provider.dart';
 
 class SingleUserItem extends StatefulWidget {
   final UserModel userModel;
-  const SingleUserItem({super.key, required this.userModel});
+  final int index;
+  const SingleUserItem(
+      {super.key, required this.userModel, required this.index});
 
   @override
   State<SingleUserItem> createState() => _SingleUserItemState();
@@ -29,11 +33,11 @@ class _SingleUserItemState extends State<SingleUserItem> {
           children: [
             widget.userModel.image != null
                 ? CircleAvatar(
-                    radius: 35,
+                    radius: 30,
                     backgroundImage: NetworkImage(widget.userModel.image!),
                   )
                 : CircleAvatar(
-                    radius: 35,
+                    radius: 30,
                     child: Icon(Icons.person),
                   ),
             Padding(
@@ -41,30 +45,36 @@ class _SingleUserItemState extends State<SingleUserItem> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FittedBox(
-                    child: Text(
-                      widget.userModel.name,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    widget.userModel.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: kDefaultPadding / 2),
-                  FittedBox(
-                    child: Text(
-                      widget.userModel.email,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
+                  Text(
+                    widget.userModel.email,
+                    style: TextStyle(
+                      fontSize: 16,
                     ),
                   )
                 ],
               ),
             ),
             const Spacer(),
+            GestureDetector(
+              onTap: () async {
+                Routes.instance.push(
+                    widget: EditProfile(
+                        index: widget.index, userModel: widget.userModel),
+                    context: context);
+              },
+              child: Icon(Icons.edit),
+            ),
+            SizedBox(width: kDefaultPadding),
             isLoading
                 ? CircularProgressIndicator()
-                : IconButton(
-                    onPressed: () async {
+                : GestureDetector(
+                    onTap: () async {
                       setState(() {
                         isLoading = true;
                       });
@@ -74,8 +84,9 @@ class _SingleUserItemState extends State<SingleUserItem> {
                         isLoading = false;
                       });
                     },
-                    icon: Icon(Icons.delete),
-                  )
+                    child: Icon(Icons.delete,
+                        color: const Color.fromARGB(255, 239, 84, 73)),
+                  ),
           ],
         ),
       ),

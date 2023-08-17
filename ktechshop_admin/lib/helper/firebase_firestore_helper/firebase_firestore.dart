@@ -38,6 +38,17 @@ class FirebaseFirestoreHelper {
     }
   }
 
+  Future<void> updateSingleUser(UserModel userModel) async {
+    try {
+      await _firebaseFirestore
+          .collection("users")
+          .doc(userModel.id)
+          .update(userModel.toJson());
+    } catch (e) {
+      //
+    }
+  }
+
   // Future<List<ProductModel>> getBestProducts() async {
   //   try {
   //     QuerySnapshot<Map<String, dynamic>> querySnapshot =

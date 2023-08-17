@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
 import 'package:ktechshopadmin/models/user_model/user_model.dart';
@@ -26,7 +25,7 @@ class UserView extends StatelessWidget {
                   itemCount: value.getUserList.length,
                   itemBuilder: (context, index) {
                     UserModel userModel = value.getUserList[index];
-                    return SingleUserItem(userModel: userModel);
+                    return SingleUserItem(index: index, userModel: userModel);
                   });
             },
           ),
