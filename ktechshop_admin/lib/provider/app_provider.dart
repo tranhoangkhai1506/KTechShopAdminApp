@@ -39,4 +39,23 @@ class AppProvider with ChangeNotifier {
     _userList[index] = userModel;
     notifyListeners();
   }
+
+  //cate
+  Future<void> deletedCaterogyFromFirebase(
+      CategoriesModel categoriesModel) async {
+    String value = await FirebaseFirestoreHelper.instance
+        .deleteSingleCaterogy(categoriesModel.id);
+    if (value == "Successfully Deleted") {
+      _categoriesList.remove(categoriesModel);
+      showMessage("Successfully Deleted");
+    }
+    notifyListeners();
+  }
+
+  void updateCaterogyList(int index, CategoriesModel categoriesModel) async {
+    await FirebaseFirestoreHelper.instance
+        .updateSingleCaterogy(categoriesModel);
+    _categoriesList[index] = categoriesModel;
+    notifyListeners();
+  }
 }

@@ -22,8 +22,9 @@ class _SingleUserItemState extends State<SingleUserItem> {
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
     return Card(
-      color: Theme.of(context).primaryColor.withOpacity(0.5),
-      elevation: 8.0,
+      color: Colors.white
+          .withOpacity(0.8), //Theme.of(context).primaryColor.withOpacity(0.5),
+      elevation: 6.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kDefaultPadding),
       ),
@@ -53,8 +54,9 @@ class _SingleUserItemState extends State<SingleUserItem> {
                   SizedBox(height: kDefaultPadding / 2),
                   Text(
                     widget.userModel.email,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 12,
                     ),
                   )
                 ],

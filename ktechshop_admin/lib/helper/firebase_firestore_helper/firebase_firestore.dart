@@ -49,6 +49,26 @@ class FirebaseFirestoreHelper {
     }
   }
 
+  Future<String> deleteSingleCaterogy(String id) async {
+    try {
+      //await _firebaseFirestore.collection("catagories").doc(id).delete();
+      return "Successfully Deleted";
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<void> updateSingleCaterogy(CategoriesModel categoriesModel) async {
+    try {
+      await _firebaseFirestore
+          .collection("catagories")
+          .doc(categoriesModel.id)
+          .update(categoriesModel.toJson());
+    } catch (e) {
+      //
+    }
+  }
+
   // Future<List<ProductModel>> getBestProducts() async {
   //   try {
   //     QuerySnapshot<Map<String, dynamic>> querySnapshot =
