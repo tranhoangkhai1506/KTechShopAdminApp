@@ -8,20 +8,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ktechshopadmin/constants/constants.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
 import 'package:ktechshopadmin/helper/firebase_storage_helper/firebase_storage_helper.dart';
-import 'package:ktechshopadmin/models/user_model/user_model.dart';
+import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
 import 'package:provider/provider.dart';
 
-class EditUser extends StatefulWidget {
-  final UserModel userModel;
-  final int index;
-  const EditUser({super.key, required this.userModel, required this.index});
+class AddCategory extends StatefulWidget {
+  const AddCategory({super.key});
 
   @override
-  State<EditUser> createState() => _EditProfileState();
+  State<AddCategory> createState() => _EditProfileState();
 }
 
-class _EditProfileState extends State<EditUser> {
+class _EditProfileState extends State<AddCategory> {
   File? image;
 
   void takePicture() async {
@@ -44,7 +42,7 @@ class _EditProfileState extends State<EditUser> {
           centerTitle: true,
           backgroundColor: Colors.white,
           title: Text(
-            "Profile",
+            "Edit Category",
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -85,7 +83,7 @@ class _EditProfileState extends State<EditUser> {
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(kDefaultPadding),
                     ),
-                    hintText: widget.userModel.name),
+                    hintText: "Name"),
               ),
               SizedBox(
                 height: kMediumPadding,
@@ -94,22 +92,13 @@ class _EditProfileState extends State<EditUser> {
                   onPressed: () async {
                     if (image == null && name.text.isEmpty) {
                       Navigator.of(context).pop();
-                    } else if (image != null) {
-                      String imgUrl = await FirebaseStorageHelper.instance
-                          .uploadUserImage(widget.userModel.id, image!);
-                      UserModel userModel = widget.userModel
-                          .copyWith(name: name.text, image: imgUrl);
-                      appProvider.updateUserList(widget.index, userModel);
-                      showMessage("Update Successfully");
-                    } else {
-                      UserModel userModel =
-                          widget.userModel.copyWith(name: name.text);
-                      appProvider.updateUserList(widget.index, userModel);
-                      showMessage("Update Successfully");
+                    } else if (image != null && name.text.isNotEmpty) {
+                      appProvider.addCategory(image!, name.text);
+                      showMessage("Successfully Added");
                     }
                     Navigator.of(context).pop();
                   },
-                  child: Text("Update"))
+                  child: Text("Add"))
             ],
           ),
         ));

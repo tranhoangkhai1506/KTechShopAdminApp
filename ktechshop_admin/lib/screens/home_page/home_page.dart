@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                             SingleDashItem(
                               onPressed: () {},
                               subtitle: 'Products',
-                              title: '120',
+                              title: appProvider.getProducts.length.toString(),
                             ),
                             SingleDashItem(
                               onPressed: () {},

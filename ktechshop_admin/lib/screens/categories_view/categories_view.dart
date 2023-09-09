@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
+import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
+import 'package:ktechshopadmin/screens/categories_view/add_category/add_category.dart';
 import 'package:ktechshopadmin/screens/categories_view/widgets/single_caterogies.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,13 @@ class CategoriesView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Categories View'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Routes.instance.push(widget: AddCategory(), context: context);
+                },
+                icon: Icon(Icons.add_circle))
+          ],
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -47,7 +56,9 @@ class CategoriesView extends StatelessWidget {
                             CategoriesModel categoriesModel =
                                 value.getCategoriesList[index];
                             return SingleCatetogy(
-                                singleCaterogy: categoriesModel);
+                              singleCaterogy: categoriesModel,
+                              index: index,
+                            );
                           }),
                       Container(
                         decoration: BoxDecoration(

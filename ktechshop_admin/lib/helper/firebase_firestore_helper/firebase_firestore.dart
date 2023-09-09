@@ -1,8 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ktechshopadmin/constants/constants.dart';
+import 'package:ktechshopadmin/helper/firebase_storage_helper/firebase_storage_helper.dart';
 import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
+import 'package:ktechshopadmin/models/products_model/product_models.dart';
 import 'package:ktechshopadmin/models/user_model/user_model.dart';
 
 class FirebaseFirestoreHelper {
@@ -51,7 +55,7 @@ class FirebaseFirestoreHelper {
 
   Future<String> deleteSingleCaterogy(String id) async {
     try {
-      //await _firebaseFirestore.collection("catagories").doc(id).delete();
+      await _firebaseFirestore.collection("catagories").doc(id).delete();
       return "Successfully Deleted";
     } catch (e) {
       return e.toString();
@@ -67,6 +71,24 @@ class FirebaseFirestoreHelper {
     } catch (e) {
       //
     }
+  }
+
+  Future<CategoriesModel> addSingleCaterogy(File image, String name) async {
+    CollectionReference reference = _firebaseFirestore.collection("catagories");
+    String imageUrl = await FirebaseStorageHelper.instance
+        .uploadUserImage(reference.id, image);
+    CategoriesModel addCategory =
+        CategoriesModel(id: reference.id, image: imageUrl, name: name);
+    await reference.add(addCategory.toJson());
+    return addCategory;
+  }
+
+  Future<List<ProductModel>> getProducts() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await _firebaseFirestore.collectionGroup("products").get();
+    List<ProductModel> productList =
+        querySnapshot.docs.map((e) => ProductModel.fromJson(e.data())).toList();
+    return productList;
   }
 
   // Future<List<ProductModel>> getBestProducts() async {

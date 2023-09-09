@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
+import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
+import 'package:ktechshopadmin/screens/categories_view/edit_category/edit_category.dart';
 import 'package:provider/provider.dart';
 
 class SingleCatetogy extends StatefulWidget {
   final CategoriesModel singleCaterogy;
-  const SingleCatetogy({super.key, required this.singleCaterogy});
+  final int index;
+  const SingleCatetogy(
+      {super.key, required this.singleCaterogy, required this.index});
 
   @override
   State<SingleCatetogy> createState() => _SingleCatetogyState();
@@ -30,7 +34,8 @@ class _SingleCatetogyState extends State<SingleCatetogy> {
             child: SizedBox(
               child: Image.network(
                 widget.singleCaterogy.image,
-                scale: 6,
+                width: 100,
+                height: 100,
               ),
             ),
           ),
@@ -42,7 +47,13 @@ class _SingleCatetogyState extends State<SingleCatetogy> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () async {},
+                    onTap: () async {
+                      Routes.instance.push(
+                          widget: EditCategory(
+                              categoriesModel: widget.singleCaterogy,
+                              index: widget.index),
+                          context: context);
+                    },
                     child: Icon(
                       Icons.edit,
                       color: Colors.black,

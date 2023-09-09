@@ -66,7 +66,7 @@ class _SingleUserItemState extends State<SingleUserItem> {
             GestureDetector(
               onTap: () async {
                 Routes.instance.push(
-                    widget: EditProfile(
+                    widget: EditUser(
                         index: widget.index, userModel: widget.userModel),
                     context: context);
               },
