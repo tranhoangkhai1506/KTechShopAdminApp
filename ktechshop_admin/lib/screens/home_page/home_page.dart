@@ -6,6 +6,7 @@ import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
 import 'package:ktechshopadmin/screens/categories_view/categories_view.dart';
 import 'package:ktechshopadmin/screens/home_page/widget/single_dash_item.dart';
+import 'package:ktechshopadmin/screens/product_view/product_view.dart';
 import 'package:ktechshopadmin/screens/user_view/user_view.dart';
 import 'package:provider/provider.dart';
 
@@ -101,7 +102,10 @@ class _HomePageState extends State<HomePage> {
                                   .toString(),
                             ),
                             SingleDashItem(
-                              onPressed: () {},
+                              onPressed: () {
+                                Routes.instance.push(
+                                    widget: ProductView(), context: context);
+                              },
                               subtitle: 'Products',
                               title: appProvider.getProducts.length.toString(),
                             ),

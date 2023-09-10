@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ktechshopadmin/constants/constants.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
-import 'package:ktechshopadmin/helper/firebase_storage_helper/firebase_storage_helper.dart';
-import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
 import 'package:provider/provider.dart';
 

@@ -8,7 +8,7 @@ String productModelToJson(ProductModel data) => json.encode(data.toJson());
 class ProductModel {
   String image;
   String name;
-  String id;
+  String id, categoryId;
   bool isFavourite;
   double price;
   String description;
@@ -20,6 +20,7 @@ class ProductModel {
     required this.image,
     required this.name,
     required this.id,
+    required this.categoryId,
     required this.isFavourite,
     required this.price,
     required this.description,
@@ -36,6 +37,7 @@ class ProductModel {
         description: json["description"],
         status: json["status"],
         quantity: json["quantity"],
+        categoryId: json["categoryId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,6 +49,7 @@ class ProductModel {
         "description": description,
         "status": status,
         "quantity": quantity,
+        "categoryId": categoryId
       };
 
   ProductModel copyWith({
@@ -56,6 +59,7 @@ class ProductModel {
           image: image,
           name: name,
           id: id,
+          categoryId: categoryId,
           isFavourite: isFavourite,
           price: price,
           description: description,

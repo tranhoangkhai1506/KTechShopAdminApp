@@ -91,6 +91,21 @@ class FirebaseFirestoreHelper {
     return productList;
   }
 
+  Future<String> deleteSingleProduct(
+      String categoryId, String productId) async {
+    try {
+      await _firebaseFirestore
+          .collection("catagories")
+          .doc(categoryId)
+          .collection("products")
+          .doc(productId)
+          .delete();
+      return "Successfully Deleted";
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
   // Future<List<ProductModel>> getBestProducts() async {
   //   try {
   //     QuerySnapshot<Map<String, dynamic>> querySnapshot =
