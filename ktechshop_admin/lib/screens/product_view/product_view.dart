@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/dismension_constants.dart';
+import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
+import 'package:ktechshopadmin/screens/product_view/add_product/add_product.dart';
 import 'package:ktechshopadmin/screens/product_view/widget/single_product_view.dart';
 import 'package:provider/provider.dart';
 
@@ -18,11 +20,20 @@ class _ProductViewState extends State<ProductView> {
 
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider = Provider.of<AppProvider>(context);
+    AppProvider appProvider = Provider.of<AppProvider>(
+      context,
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products View'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add_circle))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              Routes.instance.push(widget: AddProduct(), context: context);
+            },
+            icon: Icon(Icons.add_circle),
+          ),
+        ],
       ),
       body: GridView.builder(
         physics: ScrollPhysics(),
@@ -36,7 +47,10 @@ class _ProductViewState extends State<ProductView> {
             childAspectRatio: 0.7),
         itemBuilder: (ctx, index) {
           ProductModel singleProduct = appProvider.getProducts[index];
-          return SingleProcductView(singleProduct: singleProduct);
+          return SingleProductView(
+            singleProduct: singleProduct,
+            index: index,
+          );
         },
       ),
     );

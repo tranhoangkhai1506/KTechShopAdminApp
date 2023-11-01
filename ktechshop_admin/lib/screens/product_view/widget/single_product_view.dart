@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/models/products_model/product_models.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
+import 'package:ktechshopadmin/screens/product_view/edit_product/edit_product.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/dismension_constants.dart';
 
-class SingleProcductView extends StatefulWidget {
-  const SingleProcductView({
+class SingleProductView extends StatefulWidget {
+  const SingleProductView({
     super.key,
     required this.singleProduct,
+    required this.index,
   });
 
   final ProductModel singleProduct;
+  final int index;
 
   @override
-  State<SingleProcductView> createState() => _SingleProcductViewState();
+  State<SingleProductView> createState() => _SingleProductViewState();
 }
 
-class _SingleProcductViewState extends State<SingleProcductView> {
+class _SingleProductViewState extends State<SingleProductView> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -55,6 +59,7 @@ class _SingleProcductViewState extends State<SingleProcductView> {
                         left: kDefaultPadding, right: kDefaultPadding),
                     child: Text(
                       widget.singleProduct.name,
+                      textAlign: TextAlign.center,
                       maxLines: 1,
                       style: TextStyle(
                         fontSize: 16,
@@ -82,7 +87,13 @@ class _SingleProcductViewState extends State<SingleProcductView> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () async {},
+                    onTap: () async {
+                      Routes.instance.push(
+                          widget: EditProduct(
+                              productModel: widget.singleProduct,
+                              index: widget.index),
+                          context: context);
+                    },
                     child: Icon(
                       Icons.edit,
                       color: Colors.black,

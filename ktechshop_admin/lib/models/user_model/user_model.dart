@@ -6,12 +6,14 @@ String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
   String id;
+  String? notificationToken;
   String? image;
   String name;
   String email;
 
   UserModel({
     required this.id,
+    this.notificationToken,
     this.image,
     required this.name,
     required this.email,
@@ -20,6 +22,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
         image: json["image"],
+        notificationToken: json["notificationToken"]??"",
         name: json["name"],
         email: json["email"],
       );
@@ -29,6 +32,7 @@ class UserModel {
         "image": image,
         "name": name,
         "email": email,
+        "notificationToken": notificationToken,
       };
 
   UserModel copyWith({

@@ -6,6 +6,8 @@ import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
 import 'package:ktechshopadmin/screens/categories_view/categories_view.dart';
 import 'package:ktechshopadmin/screens/home_page/widget/single_dash_item.dart';
+import 'package:ktechshopadmin/screens/notification_screen/notification_screen.dart';
+import 'package:ktechshopadmin/screens/order_list/order_list.dart';
 import 'package:ktechshopadmin/screens/product_view/product_view.dart';
 import 'package:ktechshopadmin/screens/user_view/user_view.dart';
 import 'package:provider/provider.dart';
@@ -78,6 +80,13 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: kDefaultPadding,
                         ),
+                        ElevatedButton(
+                            onPressed: () {
+                              Routes.instance.push(
+                                  widget: NotificationScreen(),
+                                  context: context);
+                            },
+                            child: Text("Send Notification to all users")),
                         GridView.count(
                           primary: false,
                           physics: ScrollPhysics(),
@@ -112,27 +121,59 @@ class _HomePageState extends State<HomePage> {
                             SingleDashItem(
                               onPressed: () {},
                               subtitle: 'Earnings',
-                              title: '\$2250',
+                              title: "\$${appProvider.getTotalEarning}",
                             ),
                             SingleDashItem(
-                              onPressed: () {},
+                              onPressed: () {
+                                Routes.instance.push(
+                                  widget: OrderList(
+                                    title: "Pending",
+                                  ),
+                                  context: context,
+                                );
+                              },
                               subtitle: 'Pending Order',
-                              title: '20',
+                              title: appProvider.getPendingOrderList.length
+                                  .toString(),
                             ),
                             SingleDashItem(
-                              onPressed: () {},
-                              subtitle: 'Completed Order',
-                              title: '199',
+                              onPressed: () {
+                                Routes.instance.push(
+                                  widget: OrderList(
+                                    title: "Delivery",
+                                  ),
+                                  context: context,
+                                );
+                              },
+                              subtitle: 'Delivery Order',
+                              title: appProvider.getDeliveryOrderList.length
+                                  .toString(),
                             ),
                             SingleDashItem(
-                              onPressed: () {},
+                              onPressed: () {
+                                Routes.instance.push(
+                                  widget: OrderList(
+                                    title: "Cancel",
+                                  ),
+                                  context: context,
+                                );
+                              },
                               subtitle: 'Cancel Order',
-                              title: '250',
+                              title: appProvider.getCancelOrderList.length
+                                  .toString(),
                             ),
                             SingleDashItem(
-                              onPressed: () {},
-                              subtitle: 'Pending',
-                              title: '250',
+                              onPressed: () {
+                                Routes.instance.push(
+                                  widget: OrderList(
+                                    title: "Completed",
+                                  ),
+                                  context: context,
+                                );
+                              },
+                              subtitle: 'Completed Order',
+                              title: appProvider.getCompletedOrderList.length
+                                  .toString(),
                             ),
                           ],
                         )

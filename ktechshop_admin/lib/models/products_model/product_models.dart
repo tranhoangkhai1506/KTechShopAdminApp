@@ -19,50 +19,57 @@ class ProductModel {
   ProductModel({
     required this.image,
     required this.name,
+    required this.status,
     required this.id,
     required this.categoryId,
     required this.isFavourite,
     required this.price,
     required this.description,
-    required this.status,
     this.quantity,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         image: json["image"],
         name: json["name"],
-        id: json["id"],
+        status: json["status"],
+        id: json["id"].toString(),
         isFavourite: false,
         price: double.parse(json["price"].toString()),
         description: json["description"],
-        status: json["status"],
         quantity: json["quantity"],
-        categoryId: json["categoryId"],
+        categoryId: json["categoryId"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
         "image": image,
         "name": name,
         "id": id,
+        "status": status,
         "isFavourite": isFavourite,
         "price": price,
         "description": description,
-        "status": status,
         "quantity": quantity,
         "categoryId": categoryId
       };
 
   ProductModel copyWith({
-    int? quantity,
+    String? name,
+    String? image,
+    String? id,
+    String? categoryId,
+    String? description,
+    String? price,
+    String? status,
   }) =>
       ProductModel(
-          image: image,
-          name: name,
-          id: id,
-          categoryId: categoryId,
-          isFavourite: isFavourite,
-          price: price,
-          description: description,
-          status: status,
-          quantity: quantity ?? this.quantity);
+        name: name ?? this.name,
+        id: id ?? this.id,
+        categoryId: categoryId ?? this.categoryId,
+        description: description ?? this.description,
+        isFavourite: false,
+        price: price != null ? double.parse(price) : this.price,
+        status: status ?? this.status,
+        image: image ?? this.image,
+        quantity: 1,
+      );
 }

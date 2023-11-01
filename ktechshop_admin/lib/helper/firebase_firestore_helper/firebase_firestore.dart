@@ -3,9 +3,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ktechshopadmin/constants/constants.dart';
 import 'package:ktechshopadmin/helper/firebase_storage_helper/firebase_storage_helper.dart';
 import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
+import 'package:ktechshopadmin/models/order_model/order_model.dart';
 import 'package:ktechshopadmin/models/products_model/product_models.dart';
 import 'package:ktechshopadmin/models/user_model/user_model.dart';
 
@@ -74,12 +76,13 @@ class FirebaseFirestoreHelper {
   }
 
   Future<CategoriesModel> addSingleCaterogy(File image, String name) async {
-    CollectionReference reference = _firebaseFirestore.collection("catagories");
+    DocumentReference reference =
+        _firebaseFirestore.collection("catagories").doc();
     String imageUrl = await FirebaseStorageHelper.instance
         .uploadUserImage(reference.id, image);
     CategoriesModel addCategory =
         CategoriesModel(id: reference.id, image: imageUrl, name: name);
-    await reference.add(addCategory.toJson());
+    await reference.set(addCategory.toJson());
     return addCategory;
   }
 
@@ -104,6 +107,120 @@ class FirebaseFirestoreHelper {
     } catch (e) {
       return e.toString();
     }
+  }
+
+  Future<void> updateSingleProduct(ProductModel productModel) async {
+    try {
+      await _firebaseFirestore
+          .collection("catagories")
+          .doc(productModel.categoryId)
+          .collection("products")
+          .doc(productModel.id)
+          .update(productModel.toJson());
+    } catch (e) {
+      //
+    }
+  }
+
+  Future<ProductModel> addSingleProduct(
+    File image,
+    String name,
+    String categoryId,
+    String price,
+    String description,
+    String status,
+  ) async {
+    DocumentReference reference = _firebaseFirestore
+        .collection("catagories")
+        .doc(categoryId)
+        .collection("products")
+        .doc();
+    String imageUrl = await FirebaseStorageHelper.instance
+        .uploadUserImage(reference.id, image);
+    ProductModel addProduct = ProductModel(
+      id: reference.id,
+      image: imageUrl,
+      name: name,
+      categoryId: categoryId,
+      description: description,
+      isFavourite: false,
+      price: double.parse(price),
+      status: status,
+      quantity: 1,
+    );
+    await reference.set(addProduct.toJson());
+    return addProduct;
+  }
+
+  Future<List<OrderModel>> getCompletedOrder() async {
+    QuerySnapshot<Map<String, dynamic>> completedOrder =
+        await _firebaseFirestore
+            .collection("orders")
+            .where("status", isEqualTo: "Completed")
+            .get();
+    List<OrderModel> completedOrderList = completedOrder.docs
+        .map((e) => OrderModel.fromJson(
+              e.data(),
+            ))
+        .toList();
+    return completedOrderList;
+  }
+
+  Future<List<OrderModel>> getCancelOrder() async {
+    QuerySnapshot<Map<String, dynamic>> cancelOrder = await _firebaseFirestore
+        .collection("orders")
+        .where("status", isEqualTo: "Cancel")
+        .get();
+    List<OrderModel> cancelOrderList = cancelOrder.docs
+        .map((e) => OrderModel.fromJson(
+              e.data(),
+            ))
+        .toList();
+    return cancelOrderList;
+  }
+
+  Future<List<OrderModel>> getPendingOrder() async {
+    QuerySnapshot<Map<String, dynamic>> pendingOrder = await _firebaseFirestore
+        .collection("orders")
+        .where("status", isEqualTo: "Pending")
+        .get();
+    List<OrderModel> pendingOrderList = pendingOrder.docs
+        .map((e) => OrderModel.fromJson(
+              e.data(),
+            ))
+        .toList();
+    return pendingOrderList;
+  }
+
+  Future<List<OrderModel>> getDeliveryOrder() async {
+    QuerySnapshot<Map<String, dynamic>> deliveryOrder = await _firebaseFirestore
+        .collection("orders")
+        .where("status", isEqualTo: "Delivery")
+        .get();
+    List<OrderModel> deliveryOrderList = deliveryOrder.docs
+        .map((e) => OrderModel.fromJson(
+              e.data(),
+            ))
+        .toList();
+    return deliveryOrderList;
+  }
+
+  Future<void> updateOrder(OrderModel orderModel, String status) async {
+    await _firebaseFirestore
+        .collection("usersOrders")
+        .doc(orderModel.userId)
+        .collection("orders")
+        .doc(orderModel.orderid)
+        .update({
+      "status": status,
+    });
+
+    await _firebaseFirestore
+        .collection("orders")
+        .doc(orderModel.orderid)
+        .update({
+      "status": status,
+    });
   }
 
   // Future<List<ProductModel>> getBestProducts() async {

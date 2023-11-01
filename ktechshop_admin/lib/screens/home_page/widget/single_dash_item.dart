@@ -30,7 +30,7 @@ class SingleDashItem extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: subtitle == "Earning" ? 20 : 28.0,
                 ),
               ),
               Text(
