@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/theme.dart';
@@ -23,7 +24,26 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Admin Panel',
         theme: themData,
-        home: HomePage(),
+        home: AnimatedSplashScreen(
+          duration: 3000,
+          splashTransition: SplashTransition.fadeTransition,
+          splash: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 78,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Image.asset('assets/images/ktechLogo.png'),
+                ),
+              ],
+            ),
+          ),
+          nextScreen: HomePage(),
+        ),
         debugShowCheckedModeBanner: false,
       ),
     );
