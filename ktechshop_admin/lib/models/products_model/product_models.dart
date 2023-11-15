@@ -8,12 +8,12 @@ String productModelToJson(ProductModel data) => json.encode(data.toJson());
 class ProductModel {
   String image;
   String name;
-  String id, categoryId;
+  String id;
+  String categoryId;
   bool isFavourite;
   double price;
   String description;
   String status;
-
   int? quantity;
 
   ProductModel({

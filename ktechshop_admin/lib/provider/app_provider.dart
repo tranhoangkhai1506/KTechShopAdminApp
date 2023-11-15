@@ -20,6 +20,14 @@ class AppProvider with ChangeNotifier {
 
   double _totalEarning = 0.0;
 
+  Future<void> getValue() async {
+    _productList.forEach((element) {
+
+      
+
+    });
+  }
+
   Future<void> getUserListFun() async {
     _userList = await FirebaseFirestoreHelper.instance.getUserList();
     _usersToken = _userList.map((e) => e.notificationToken).toList();

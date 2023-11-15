@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ktechshopadmin/constants/constants.dart';
 import 'package:ktechshopadmin/helper/firebase_storage_helper/firebase_storage_helper.dart';
 import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
@@ -14,6 +13,8 @@ import 'package:ktechshopadmin/models/user_model/user_model.dart';
 class FirebaseFirestoreHelper {
   static FirebaseFirestoreHelper instance = FirebaseFirestoreHelper();
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+  
 
   Future<List<UserModel>> getUserList() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -93,6 +94,14 @@ class FirebaseFirestoreHelper {
         querySnapshot.docs.map((e) => ProductModel.fromJson(e.data())).toList();
     return productList;
   }
+  // Future<List<ProductModel>> getProductOrder() async {
+  //   QuerySnapshot<Map<String, dynamic>> querySnapshot =
+  //       await _firebaseFirestore.collection("orders").get().then((value) => null)
+  //   List<ProductModel> productList =
+  //       querySnapshot.docs.map((e) => ProductModel.fromJson(e.data())).toList();
+  //   return productList;
+  // }
+
 
   Future<String> deleteSingleProduct(
       String categoryId, String productId) async {
