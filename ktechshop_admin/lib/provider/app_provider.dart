@@ -1,9 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:ktechshopadmin/constants/constants.dart';
 import 'package:ktechshopadmin/helper/firebase_firestore_helper/firebase_firestore.dart';
 import 'package:ktechshopadmin/models/categories_model/categories_model.dart';
+import 'package:ktechshopadmin/models/charts_model/chart_items_model.dart';
 import 'package:ktechshopadmin/models/order_model/order_model.dart';
 import 'package:ktechshopadmin/models/products_model/product_models.dart';
 import 'package:ktechshopadmin/models/user_model/user_model.dart';
@@ -20,12 +20,44 @@ class AppProvider with ChangeNotifier {
 
   double _totalEarning = 0.0;
 
-  Future<void> getValue() async {
-    _productList.forEach((element) {
+  // Future<void> getValue() async {
+  //   _productList.forEach((element) {
 
-      
+  //   });
+  // }
 
+  Future<List<ChartItems>> getAllOrderCompletedToChart() async {
+    _completedOrderList =
+        await FirebaseFirestoreHelper.instance.getCompletedOrder();
+    _productList = await FirebaseFirestoreHelper.instance.getProducts();
+    List<ProductModel> _productOrderCompletedList = [];
+    _completedOrderList.forEach((order) {
+      _productOrderCompletedList.addAll(order.products);
     });
+    int dem = 0;
+    List<ChartItems> _chartItemList = [];
+    for (var product in _productList) {
+      for (var productOrderCompleted in _productOrderCompletedList) {
+        if (product.id.contains(productOrderCompleted.id)) {
+          dem = dem + productOrderCompleted.quantity!.toInt();
+        }
+      }
+      _chartItemList.add(ChartItems(product.name, dem));
+      dem = 0;
+    }
+
+    // _productList.forEach((product) {
+    //   int totalQuantity = _completedOrderList
+    //       .map((order) => order.products
+    //           .where((productOrderCompleted) =>
+    //               product.id == productOrderCompleted.id)
+    //           .map((matchingProduct) => matchingProduct.quantity!.toInt())
+    //           .fold<int>(0, (sum, quantity) => sum + quantity))
+    //       .fold<int>(0, (sum, orderQuantity) => sum + orderQuantity);
+
+    //   _chartItemList.add(ChartItems(product.name, totalQuantity));
+    // });
+    return _chartItemList;
   }
 
   Future<void> getUserListFun() async {
