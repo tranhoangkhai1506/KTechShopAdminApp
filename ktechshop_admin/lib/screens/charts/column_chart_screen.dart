@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ktechshopadmin/models/charts_model/charts_model.dart';
-import 'package:ktechshopadmin/provider/app_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:ktechshopadmin/models/charts_model/charts_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Charts extends StatefulWidget {
@@ -14,38 +12,37 @@ class Charts extends StatefulWidget {
 class _ChartsState extends State<Charts> {
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider = Provider.of<AppProvider>(
-      context,
-    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'ColumnSeriesChart',
+          'According to product',
         ),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Chart(context),
-          Padding(
-            padding: const EdgeInsets.only(left: 180, right: 150, top: 10),
-          ),
-          Divider(
-            color: Colors.blue,
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          //circularChart(),
-        ],
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            chart(context),
+            Padding(
+              padding: const EdgeInsets.only(left: 180, right: 150, top: 10),
+            ),
+            Divider(
+              color: Colors.blue,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            //circularChart(),
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget Chart(BuildContext context) {
+Widget chart(BuildContext context) {
   return FutureBuilder<List<ChartDataInfo>>(
     future: ChartDataInfo.createChart(context),
     builder: (context, snapshot) {
@@ -60,22 +57,9 @@ Widget Chart(BuildContext context) {
           child: SfCartesianChart(
             primaryXAxis: CategoryAxis(
               labelRotation: 90, // Góc xoay của nhãn trục x
-              labelIntersectAction: AxisLabelIntersectAction
-                  .multipleRows, // Đặt khoảng cách giữa các nhãn
+              labelIntersectAction: AxisLabelIntersectAction.multipleRows,
             ),
             primaryYAxis: NumericAxis(),
-            title: ChartTitle(
-              text: 'Quantity of products sold',
-              backgroundColor: Colors.white,
-              borderColor: Colors.black,
-              alignment: ChartAlignment.center,
-              textStyle: const TextStyle(
-                color: Colors.black,
-                fontFamily: 'Roboto',
-                fontStyle: FontStyle.normal,
-                fontSize: 20,
-              ),
-            ),
             series: <ChartSeries>[
               ColumnSeries<ChartDataInfo, String>(
                 dataSource: chartData,
@@ -89,6 +73,18 @@ Widget Chart(BuildContext context) {
                 ),
               ),
             ],
+            title: ChartTitle(
+              text: 'Quantity of products sold',
+              backgroundColor: Colors.white,
+              borderColor: Colors.black,
+              alignment: ChartAlignment.center,
+              textStyle: const TextStyle(
+                color: Colors.black,
+                fontFamily: 'Roboto',
+                fontStyle: FontStyle.normal,
+                fontSize: 20,
+              ),
+            ),
           ),
         );
       }

@@ -14,8 +14,6 @@ class FirebaseFirestoreHelper {
   static FirebaseFirestoreHelper instance = FirebaseFirestoreHelper();
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  
-
   Future<List<UserModel>> getUserList() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await _firebaseFirestore.collection('users').get();
@@ -30,6 +28,19 @@ class FirebaseFirestoreHelper {
           .map((e) => CategoriesModel.fromJson(e.data()))
           .toList();
       return categoriesList;
+    } catch (e) {
+      showMessage(e.toString());
+      return [];
+    }
+  }
+
+  Future<List<OrderModel>> getOrders() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await _firebaseFirestore.collection("orders").get();
+      List<OrderModel> ordersList =
+          querySnapshot.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+      return ordersList;
     } catch (e) {
       showMessage(e.toString());
       return [];
@@ -101,7 +112,6 @@ class FirebaseFirestoreHelper {
   //       querySnapshot.docs.map((e) => ProductModel.fromJson(e.data())).toList();
   //   return productList;
   // }
-
 
   Future<String> deleteSingleProduct(
       String categoryId, String productId) async {

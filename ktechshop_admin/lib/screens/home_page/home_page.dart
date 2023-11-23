@@ -5,7 +5,7 @@ import 'package:ktechshopadmin/constants/dismension_constants.dart';
 import 'package:ktechshopadmin/constants/routes.dart';
 import 'package:ktechshopadmin/provider/app_provider.dart';
 import 'package:ktechshopadmin/screens/categories_view/categories_view.dart';
-import 'package:ktechshopadmin/screens/charts/charts.dart';
+import 'package:ktechshopadmin/screens/charts/home_chart.dart';
 import 'package:ktechshopadmin/screens/home_page/widget/single_dash_item.dart';
 import 'package:ktechshopadmin/screens/notification_screen/notification_screen.dart';
 import 'package:ktechshopadmin/screens/order_list/order_list.dart';
@@ -96,6 +96,16 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             SingleDashItem(
                               onPressed: () {
+                                Routes.instance.push(
+                                  widget: HomeChart(),
+                                  context: context,
+                                );
+                              },
+                              subtitle: 'View Charts',
+                              title: '',
+                            ),
+                            SingleDashItem(
+                              onPressed: () {
                                 Routes.instance
                                     .push(widget: UserView(), context: context);
                               },
@@ -175,16 +185,6 @@ class _HomePageState extends State<HomePage> {
                               subtitle: 'Completed Order',
                               title: appProvider.getCompletedOrderList.length
                                   .toString(),
-                            ),
-                            SingleDashItem(
-                              onPressed: () {
-                                Routes.instance.push(
-                                  widget: Charts(),
-                                  context: context,
-                                );
-                              },
-                              subtitle: 'Charts',
-                              title: '',
                             ),
                           ],
                         )

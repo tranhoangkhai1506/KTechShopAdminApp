@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 78,
+                  height: 70,
                   width: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.0),
